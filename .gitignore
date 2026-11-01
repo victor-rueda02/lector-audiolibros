@@ -2,6 +2,7 @@ node_modules/
 dist/
 test-results/
 playwright-report/
+e2e/.cache/
 .vite/
 *.log
 # Nunca subir libros ni audio reales (los fixtures de tests/fixtures se generan con scripts propios)
