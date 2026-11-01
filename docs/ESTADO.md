@@ -33,6 +33,7 @@ PDF ─▶ src/pdf (pdf.js + limpieza pura) ─▶ Libro{capítulos[párrafos]}
 | 11 | Ventana de capítulos: el actual y los siguientes; se borran los ya escuchados | Ahorra cuota. |
 | 12 | ONNX Runtime en un solo hilo (sin SharedArrayBuffer) | GitHub Pages no permite las cabeceras COOP/COEP. |
 | 13 | CI (GitHub Actions): tests unitarios + build + despliegue; e2e con Playwright WebKit en local | Mantiene el despliegue rápido y sin depender de descargar modelos en CI. |
+| 14 | Subagentes definidos en `.claude/agents/` (model: sonnet, effort: medium) | Claude Code solo los carga al iniciar sesión; en la sesión en que se crearon se lanzaron como agente genérico Sonnet/medio siguiendo ese mismo archivo de rol. |
 
 ## Dependencias y licencias
 
@@ -61,7 +62,7 @@ PDF ─▶ src/pdf (pdf.js + limpieza pura) ─▶ Libro{capítulos[párrafos]}
 
 ## Hitos
 
-- [ ] 1. Entorno, esqueleto, interfaces y despliegue vacío
+- [x] 1. Entorno, esqueleto, interfaces y despliegue vacío (desplegado en Pages)
 - [ ] 2. Pipeline de limpieza + motor de voz con Diagnóstico
 - [ ] 3. Reproductor e integración
 - [ ] 4. E2E en WebKit y despliegue final
