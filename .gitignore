@@ -1,0 +1,13 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.vite/
+*.log
+# Nunca subir libros ni audio reales (los fixtures de tests/fixtures se generan con scripts propios)
+*.mp3
+*.wav
+*.m4a
+*.onnx
+/libros/
+.claude/settings.local.json
