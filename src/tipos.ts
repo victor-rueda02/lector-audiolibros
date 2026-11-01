@@ -183,3 +183,16 @@ export interface Servicios {
   /** Monta la pantalla de Diagnóstico (src/diagnostico) dentro del contenedor. */
   montarDiagnostico: (contenedor: HTMLElement) => void;
 }
+
+// ───────────────────────── Constantes compartidas ─────────────────────────
+
+/** Claves de localStorage compartidas entre módulos. */
+export const CLAVES_LOCAL = {
+  /** Id de la voz elegida (string). */
+  vozId: 'lector.vozId',
+  /** PosicionLectura en JSON. */
+  posicion: 'lector.posicion',
+} as const;
+
+/** Voz que se usa si el usuario aún no ha elegido ninguna. */
+export const VOZ_POR_DEFECTO = 'es_ES-davefx-medium';
