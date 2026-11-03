@@ -40,6 +40,7 @@ PDF ─▶ src/pdf (pdf.js + limpieza pura) ─▶ Libro{capítulos[párrafos]}
 | 18 | Paso al capítulo siguiente: se precarga su audio y en `ended` se cambia `src` y se llama a `play()` sin awaits | Máxima probabilidad de que iOS lo permita con la pantalla bloqueada; si falla, el capítulo queda cargado y basta pulsar play en la pantalla de bloqueo. |
 | 19 | Media Session sin `previoustrack`/`nexttrack` | Así iOS muestra los botones de ±30 s en la pantalla de bloqueo. |
 | 20 | e2e: WebKit comprueba todo hasta tener un MP3 válido cargado en el `<audio>`; Chromium comprueba además reproducción, ±30 s, velocidad y reanudación | El WebKit de Playwright para Windows no decodifica audio (MediaError 4 incluso con MP3/WAV de terceros). |
+| 21 | El fonemizador (espeak-ng wasm) se recrea cada 40 frases reutilizando el `.data` y el wasm ya compilado; si falla, se recrea y se reintenta una vez; se limpian los surrogates sueltos | Su memoria es fija (16 MB) y cada llamada pierde memoria: abortaba con "Aborted()" hacia la frase 87 (fallo visto en el iPhone con un libro real). Crear un módulo nuevo cuesta ~30 ms. Test de regresión: `src/voz/fonemizador.test.ts`. |
 
 ## Dependencias y licencias
 
