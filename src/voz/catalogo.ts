@@ -20,12 +20,12 @@ interface DefinicionModelo {
   titulo: string;
 }
 
-// Solo se indica el género cuando se sabe con seguridad.
+// Género: solo cuando se sabe con seguridad (carlfm y MLS, por el tono medio de su muestra oficial).
 const MODELOS: DefinicionModelo[] = [
-  { region: 'es_ES', nombre: 'carlfm', calidad: 'x_low', tamanoMB: 28, titulo: 'Carlfm · España · calidad básica' },
+  { region: 'es_ES', nombre: 'carlfm', calidad: 'x_low', tamanoMB: 28, titulo: 'Carlfm · España · masculina · calidad básica' },
   { region: 'es_ES', nombre: 'davefx', calidad: 'medium', tamanoMB: 63, titulo: 'Dave · España · masculina · calidad media' },
-  { region: 'es_ES', nombre: 'mls_10246', calidad: 'low', tamanoMB: 63, titulo: 'MLS 10246 · España · calidad baja' },
-  { region: 'es_ES', nombre: 'mls_9972', calidad: 'low', tamanoMB: 63, titulo: 'MLS 9972 · España · calidad baja' },
+  { region: 'es_ES', nombre: 'mls_10246', calidad: 'low', tamanoMB: 63, titulo: 'MLS 10246 · España · femenina · calidad baja' },
+  { region: 'es_ES', nombre: 'mls_9972', calidad: 'low', tamanoMB: 63, titulo: 'MLS 9972 · España · femenina · calidad baja' },
   {
     region: 'es_ES',
     nombre: 'sharvard',
