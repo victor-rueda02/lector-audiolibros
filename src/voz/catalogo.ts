@@ -1,12 +1,15 @@
 /**
- * Catálogo de voces Piper es_ES y construcción de URLs. Módulo puro (sin DOM).
+ * Catálogo de voces Piper en español (España, México, Argentina) y construcción de URLs.
+ * Módulo puro (sin DOM).
  */
 import type { Voz } from '../tipos.ts';
 
-export const BASE_MODELOS = 'https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES';
-export const BASE_MUESTRAS = 'https://rhasspy.github.io/piper-samples/samples/es/es_ES';
+export const BASE_MODELOS = 'https://huggingface.co/rhasspy/piper-voices/resolve/main/es';
+export const BASE_MUESTRAS = 'https://rhasspy.github.io/piper-samples/samples/es';
 
 interface DefinicionModelo {
+  /** Variante del idioma en piper-voices. */
+  region: 'es_ES' | 'es_MX' | 'es_AR';
   /** Nombre del modelo en piper-voices, p. ej. "davefx". */
   nombre: string;
   calidad: Voz['calidad'];
@@ -17,21 +20,26 @@ interface DefinicionModelo {
   titulo: string;
 }
 
+// Solo se indica el género cuando se sabe con seguridad.
 const MODELOS: DefinicionModelo[] = [
-  { nombre: 'carlfm', calidad: 'x_low', tamanoMB: 28, titulo: 'Carlfm · calidad básica' },
-  { nombre: 'davefx', calidad: 'medium', tamanoMB: 63, titulo: 'Dave · masculina · calidad media' },
-  { nombre: 'mls_10246', calidad: 'low', tamanoMB: 63, titulo: 'MLS 10246 · calidad baja' },
-  { nombre: 'mls_9972', calidad: 'low', tamanoMB: 63, titulo: 'MLS 9972 · calidad baja' },
+  { region: 'es_ES', nombre: 'carlfm', calidad: 'x_low', tamanoMB: 28, titulo: 'Carlfm · España · calidad básica' },
+  { region: 'es_ES', nombre: 'davefx', calidad: 'medium', tamanoMB: 63, titulo: 'Dave · España · masculina · calidad media' },
+  { region: 'es_ES', nombre: 'mls_10246', calidad: 'low', tamanoMB: 63, titulo: 'MLS 10246 · España · calidad baja' },
+  { region: 'es_ES', nombre: 'mls_9972', calidad: 'low', tamanoMB: 63, titulo: 'MLS 9972 · España · calidad baja' },
   {
+    region: 'es_ES',
     nombre: 'sharvard',
     calidad: 'medium',
     tamanoMB: 77,
     titulo: 'Sharvard',
     hablantes: [
-      { clave: 'M', etiqueta: 'Sharvard · masculina · calidad media', indiceMuestra: 0 },
-      { clave: 'F', etiqueta: 'Sharvard · femenina · calidad media', indiceMuestra: 1 },
+      { clave: 'M', etiqueta: 'Sharvard · España · masculina · calidad media', indiceMuestra: 0 },
+      { clave: 'F', etiqueta: 'Sharvard · España · femenina · calidad media', indiceMuestra: 1 },
     ],
   },
+  { region: 'es_MX', nombre: 'ald', calidad: 'medium', tamanoMB: 63, titulo: 'Ald · México · calidad media' },
+  { region: 'es_MX', nombre: 'claude', calidad: 'high', tamanoMB: 63, titulo: 'Claude · México · calidad alta' },
+  { region: 'es_AR', nombre: 'daniela', calidad: 'high', tamanoMB: 114, titulo: 'Daniela · Argentina · calidad alta (descarga grande)' },
 ];
 
 export interface VozResuelta {
@@ -47,16 +55,16 @@ export interface VozResuelta {
 }
 
 function idModelo(m: DefinicionModelo): string {
-  return `es_ES-${m.nombre}-${m.calidad}`;
+  return `${m.region}-${m.nombre}-${m.calidad}`;
 }
 
 function urlBase(m: DefinicionModelo): string {
-  return `${BASE_MODELOS}/${m.nombre}/${m.calidad}/${idModelo(m)}`;
+  return `${BASE_MODELOS}/${m.region}/${m.nombre}/${m.calidad}/${idModelo(m)}`;
 }
 
 /** Las muestras speaker_<n>.mp3 existen (comprobado con curl) para n=0 en todas y n=1 en sharvard. */
 function urlMuestra(m: DefinicionModelo, n: number): string {
-  return `${BASE_MUESTRAS}/${m.nombre}/${m.calidad}/speaker_${n}.mp3`;
+  return `${BASE_MUESTRAS}/${m.region}/${m.nombre}/${m.calidad}/speaker_${n}.mp3`;
 }
 
 export function listarVocesCatalogo(): Voz[] {

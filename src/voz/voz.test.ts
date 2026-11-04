@@ -59,9 +59,16 @@ describe('crearLimitador', () => {
 });
 
 describe('catálogo', () => {
-  it('tiene 6 voces y resuelve hablantes', () => {
+  it('tiene 9 voces (España, México, Argentina) y resuelve hablantes', () => {
     const voces = listarVocesCatalogo();
-    expect(voces).toHaveLength(6);
+    expect(voces).toHaveLength(9);
+    expect(new Set(voces.map((v) => v.id)).size).toBe(9);
+    expect(resolverVoz('es_MX-claude-high')?.urlOnnx).toBe(
+      'https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/claude/high/es_MX-claude-high.onnx',
+    );
+    expect(voces.find((v) => v.id === 'es_AR-daniela-high')?.urlMuestra).toBe(
+      'https://rhasspy.github.io/piper-samples/samples/es/es_AR/daniela/high/speaker_0.mp3',
+    );
     expect(resolverVoz('es_ES-sharvard-medium#F')?.hablante).toBe('F');
     expect(resolverVoz('es_ES-davefx-medium')?.urlOnnx).toBe(
       'https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/davefx/medium/es_ES-davefx-medium.onnx',

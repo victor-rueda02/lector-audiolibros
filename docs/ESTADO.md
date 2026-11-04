@@ -41,6 +41,7 @@ PDF ─▶ src/pdf (pdf.js + limpieza pura) ─▶ Libro{capítulos[párrafos]}
 | 19 | Media Session sin `previoustrack`/`nexttrack` | Así iOS muestra los botones de ±30 s en la pantalla de bloqueo. |
 | 20 | e2e: WebKit comprueba todo hasta tener un MP3 válido cargado en el `<audio>`; Chromium comprueba además reproducción, ±30 s, velocidad y reanudación | El WebKit de Playwright para Windows no decodifica audio (MediaError 4 incluso con MP3/WAV de terceros). |
 | 21 | El fonemizador (espeak-ng wasm) se recrea cada 40 frases reutilizando el `.data` y el wasm ya compilado; si falla, se recrea y se reintenta una vez; se limpian los surrogates sueltos | Su memoria es fija (16 MB) y cada llamada pierde memoria: abortaba con "Aborted()" hacia la frase 87 (fallo visto en el iPhone con un libro real). Crear un módulo nuevo cuesta ~30 ms. Test de regresión: `src/voz/fonemizador.test.ts`. |
+| 22 | Catálogo ampliado a todas las voces Piper en español: además de las 6 de España, es_MX-ald-medium, es_MX-claude-high y es_AR-daniela-high (114 MB) | Más donde elegir a petición del usuario; usan espeak `es-419`, incluido en el fonemizador. Se omite es_MX-ald-x_low (misma voz que ald-medium con peor calidad). |
 
 ## Dependencias y licencias
 
@@ -66,7 +67,7 @@ Leyenda: ✅ probado en escritorio (Chromium y WebKit de Playwright) · ⏳ pend
 |---|-----------|--------|
 | 1 | Cargar PDF desde Archivos | ✅ `<input type=file accept=pdf>` · ⏳ que abra Archivos en iPhone |
 | 2 | Extracción y limpieza + vista previa + capítulo de inicio | ✅ 30 tests sobre 5 PDFs generados (cabeceras, pies, números, notas, guiones, 2 columnas, índice, escaneado) · ⏳ libro real |
-| 3 | Elegir voz con muestra; recuerda la elección | ✅ 6 voces es_ES, muestras oficiales, elección en localStorage · ⏳ muestras en Safari iOS |
+| 3 | Elegir voz con muestra; recuerda la elección | ✅ 9 voces (6 España, 2 México, 1 Argentina), muestras oficiales, elección en localStorage · ⏳ muestras en Safari iOS |
 | 4 | Generar audio por capítulos con progreso y ETA | ✅ e2e en WebKit y Chromium; Wake Lock · ⏳ velocidad y memoria en iPhone |
 | 5 | Reproductor: play/pausa, ±30 s, velocidad, Media Session, posición guardada | ✅ en Chromium (e2e) · ⏳ todo en Safari iOS, sobre todo con pantalla bloqueada |
 | 6 | Diagnóstico | ✅ (e2e comprueba que se monta; probado a mano en WebKit) · ⏳ cifras del iPhone |
