@@ -103,6 +103,14 @@ export async function iniciarApp(contenedor: HTMLElement, servicios: Servicios):
     window.scrollTo(0, 0);
   }
 
+  // La voz guardada puede haber salido del catálogo: se vuelve a la de por defecto.
+  try {
+    const guardada = localStorage.getItem(CLAVES_LOCAL.vozId);
+    if (guardada && !(await ctx.voces()).some((v) => v.id === guardada)) localStorage.removeItem(CLAVES_LOCAL.vozId);
+  } catch {
+    /* no crítico */
+  }
+
   mostrar('libro');
   try {
     ctx.libro = await servicios.almacen.obtenerLibro();

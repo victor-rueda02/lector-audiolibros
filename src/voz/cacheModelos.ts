@@ -25,6 +25,19 @@ export async function borrarDeCache(url: string): Promise<void> {
   }
 }
 
+/** Borra de la caché los modelos que ya no están en `urls` (voces retiradas del catálogo). */
+export async function conservarEnCache(urls: string[]): Promise<void> {
+  if (typeof caches === 'undefined') return;
+  try {
+    const cache = await caches.open(NOMBRE_CACHE);
+    for (const peticion of await cache.keys()) {
+      if (!urls.includes(peticion.url)) await cache.delete(peticion);
+    }
+  } catch {
+    /* no crítico: solo libera espacio */
+  }
+}
+
 /**
  * Devuelve el contenido de `url`, desde la caché si está o descargándolo (y
  * guardándolo) si no. `tamanoConocido` se usa si el servidor no envía Content-Length.

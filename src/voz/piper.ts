@@ -53,6 +53,7 @@ export class MotorPiper implements MotorVoz {
     }
     const bufConfig = await obtenerConCache(voz.urlConfig, 8_000);
     const config = JSON.parse(new TextDecoder().decode(bufConfig)) as ConfigPiper;
+    if (voz.escalaDuracion !== null) config.inference.length_scale = voz.escalaDuracion;
     const modelo = await obtenerConCache(voz.urlOnnx, voz.tamanoBytesAprox, onProgreso);
     this.pendiente = { voz, config, modelo };
   }

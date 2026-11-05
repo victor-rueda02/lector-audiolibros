@@ -3,7 +3,8 @@
  * reutilizado (mantiene la voz cargada). Las llamadas se encolan en serie.
  */
 import type { Capitulo, GeneradorAudio, ProgresoGeneracion, ResultadoAudio, Voz } from '../tipos.ts';
-import { listarVocesCatalogo } from './catalogo.ts';
+import { conservarEnCache } from './cacheModelos.ts';
+import { listarVocesCatalogo, resolverVoz } from './catalogo.ts';
 import { vozDescargada } from './descargada.ts';
 import { planificarTexto, type Segmento } from './frases.ts';
 import type { MensajeAlWorker, MensajeDelWorker } from './mensajes.ts';
@@ -18,6 +19,13 @@ export function crearGeneradorAudio(): GeneradorAudio {
   let worker: Worker | null = null;
   let cola: Promise<unknown> = Promise.resolve();
   let siguienteId = 1;
+
+  void conservarEnCache(
+    listarVocesCatalogo().flatMap((v) => {
+      const r = resolverVoz(v.id);
+      return r ? [r.urlOnnx, r.urlConfig] : [];
+    }),
+  );
 
   function obtenerWorker(): Worker {
     worker ??= new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });

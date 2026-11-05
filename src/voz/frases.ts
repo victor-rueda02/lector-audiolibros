@@ -5,8 +5,8 @@
 export const MAX_CARACTERES_FRASE = 250;
 
 /** Pausas objetivo (segundos) tras cada tipo de segmento. */
-export const PAUSA_FRASE_SEG = 0.25;
-export const PAUSA_PARRAFO_SEG = 0.7;
+export const PAUSA_FRASE_SEG = 0.5;
+export const PAUSA_PARRAFO_SEG = 0.9;
 export const PAUSA_TITULO_SEG = 1.2;
 
 export interface Segmento {

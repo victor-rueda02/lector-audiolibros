@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { VOZ_POR_DEFECTO } from '../tipos.ts';
 import { listarVocesCatalogo, resolverVoz } from './catalogo.ts';
 import { crearLimitador, estimarEta } from './eta.ts';
 import { dividirEnFrases, planificarTexto, silencioFinalSeg } from './frases.ts';
@@ -25,7 +26,7 @@ describe('dividirEnFrases', () => {
 describe('planificarTexto', () => {
   it('asigna pausas: título, entre frases y entre párrafos', () => {
     const plan = planificarTexto('Capítulo 1', ['Una. Dos.', 'Tres.']);
-    expect(plan.map((s) => s.pausaDespuesSeg)).toEqual([1.2, 0.25, 0.7, 0.7]);
+    expect(plan.map((s) => s.pausaDespuesSeg)).toEqual([1.2, 0.5, 0.9, 0.9]);
     expect(plan.map((s) => s.texto)).toEqual(['Capítulo 1', 'Una.', 'Dos.', 'Tres.']);
   });
 });
@@ -59,21 +60,16 @@ describe('crearLimitador', () => {
 });
 
 describe('catálogo', () => {
-  it('tiene 9 voces (España, México, Argentina) y resuelve hablantes', () => {
+  it('solo tiene Carlfm, con su ritmo pausado', () => {
     const voces = listarVocesCatalogo();
-    expect(voces).toHaveLength(9);
-    expect(new Set(voces.map((v) => v.id)).size).toBe(9);
-    expect(resolverVoz('es_MX-claude-high')?.urlOnnx).toBe(
-      'https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/claude/high/es_MX-claude-high.onnx',
+    expect(voces.map((v) => v.id)).toEqual([VOZ_POR_DEFECTO]);
+    const v = resolverVoz(VOZ_POR_DEFECTO);
+    expect(v?.escalaDuracion).toBe(1.12);
+    expect(v?.urlOnnx).toBe(
+      'https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/carlfm/x_low/es_ES-carlfm-x_low.onnx',
     );
-    expect(voces.find((v) => v.id === 'es_AR-daniela-high')?.urlMuestra).toBe(
-      'https://rhasspy.github.io/piper-samples/samples/es/es_AR/daniela/high/speaker_0.mp3',
-    );
-    expect(resolverVoz('es_ES-sharvard-medium#F')?.hablante).toBe('F');
-    expect(resolverVoz('es_ES-davefx-medium')?.urlOnnx).toBe(
-      'https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/davefx/medium/es_ES-davefx-medium.onnx',
-    );
-    expect(resolverVoz('es_ES-sharvard-medium')).toBeNull();
+    expect(voces[0].urlMuestra).toBe('https://rhasspy.github.io/piper-samples/samples/es/es_ES/carlfm/x_low/speaker_0.mp3');
+    expect(resolverVoz('es_ES-davefx-medium')).toBeNull();
     expect(resolverVoz('nada')).toBeNull();
   });
 });

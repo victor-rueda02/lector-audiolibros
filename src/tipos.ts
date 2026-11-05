@@ -195,4 +195,4 @@ export const CLAVES_LOCAL = {
 } as const;
 
 /** Voz que se usa si el usuario aún no ha elegido ninguna. */
-export const VOZ_POR_DEFECTO = 'es_ES-davefx-medium';
+export const VOZ_POR_DEFECTO = 'es_ES-carlfm-x_low';

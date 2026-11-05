@@ -1,5 +1,5 @@
 /**
- * Catálogo de voces Piper en español (España, México, Argentina) y construcción de URLs.
+ * Catálogo de voces Piper en español y construcción de URLs.
  * Módulo puro (sin DOM).
  */
 import type { Voz } from '../tipos.ts';
@@ -18,28 +18,13 @@ interface DefinicionModelo {
   hablantes?: { clave: string; etiqueta: string; indiceMuestra: number }[];
   /** Nombre visible (monohablante). */
   titulo: string;
+  /** length_scale propio (> 1 habla más despacio). Ausente: el del modelo. */
+  escalaDuracion?: number;
 }
 
-// Género: solo cuando se sabe con seguridad (carlfm y MLS, por el tono medio de su muestra oficial).
+// Solo la voz que usa el lector. Para añadir otra basta con una entrada más.
 const MODELOS: DefinicionModelo[] = [
-  { region: 'es_ES', nombre: 'carlfm', calidad: 'x_low', tamanoMB: 28, titulo: 'Carlfm · España · masculina · calidad básica' },
-  { region: 'es_ES', nombre: 'davefx', calidad: 'medium', tamanoMB: 63, titulo: 'Dave · España · masculina · calidad media' },
-  { region: 'es_ES', nombre: 'mls_10246', calidad: 'low', tamanoMB: 63, titulo: 'MLS 10246 · España · femenina · calidad baja' },
-  { region: 'es_ES', nombre: 'mls_9972', calidad: 'low', tamanoMB: 63, titulo: 'MLS 9972 · España · femenina · calidad baja' },
-  {
-    region: 'es_ES',
-    nombre: 'sharvard',
-    calidad: 'medium',
-    tamanoMB: 77,
-    titulo: 'Sharvard',
-    hablantes: [
-      { clave: 'M', etiqueta: 'Sharvard · España · masculina · calidad media', indiceMuestra: 0 },
-      { clave: 'F', etiqueta: 'Sharvard · España · femenina · calidad media', indiceMuestra: 1 },
-    ],
-  },
-  { region: 'es_MX', nombre: 'ald', calidad: 'medium', tamanoMB: 63, titulo: 'Ald · México · calidad media' },
-  { region: 'es_MX', nombre: 'claude', calidad: 'high', tamanoMB: 63, titulo: 'Claude · México · calidad alta' },
-  { region: 'es_AR', nombre: 'daniela', calidad: 'high', tamanoMB: 114, titulo: 'Daniela · Argentina · calidad alta (descarga grande)' },
+  { region: 'es_ES', nombre: 'carlfm', calidad: 'x_low', tamanoMB: 28, titulo: 'Carlfm · España · masculina · ritmo pausado', escalaDuracion: 1.12 },
 ];
 
 export interface VozResuelta {
@@ -52,6 +37,7 @@ export interface VozResuelta {
   urlOnnx: string;
   urlConfig: string;
   tamanoBytesAprox: number;
+  escalaDuracion: number | null;
 }
 
 function idModelo(m: DefinicionModelo): string {
@@ -107,5 +93,6 @@ export function resolverVoz(vozId: string): VozResuelta | null {
     urlOnnx: `${urlBase(m)}.onnx`,
     urlConfig: `${urlBase(m)}.onnx.json`,
     tamanoBytesAprox: m.tamanoMB * 1024 * 1024,
+    escalaDuracion: m.escalaDuracion ?? null,
   };
 }

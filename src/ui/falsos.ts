@@ -94,7 +94,7 @@ export function crearServiciosFalsos(): Servicios {
 
   const voces: Voz[] = [
     {
-      id: 'es_ES-davefx-medium',
+      id: 'es_ES-carlfm-x_low',
       nombre: 'Dave · masculina · calidad media',
       calidad: 'medium',
       tamanoMB: 63,
@@ -109,7 +109,7 @@ export function crearServiciosFalsos(): Servicios {
     },
     { id: 'es_ES-mls_10246-low', nombre: 'MLS · masculina · calidad baja', calidad: 'low', tamanoMB: 28, urlMuestra: null },
   ];
-  const descargadas = new Set<string>(['es_ES-davefx-medium']);
+  const descargadas = new Set<string>(['es_ES-carlfm-x_low']);
 
   const generador: GeneradorAudio = {
     listarVoces: async () => {
